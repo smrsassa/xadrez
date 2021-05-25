@@ -9,7 +9,7 @@ MAX_FPS = 15
 IMAGENS = {}
 
 def carregarImagens():
-    pecas = ["wR", "wN", "ww", "wQ", "wK", "wP", "bR", "bN", "bB", "bQ", "bK", "bP"]
+    pecas = ["wR", "wN", "wB", "wQ", "wK", "wP", "bR", "bN", "bB", "bQ", "bK", "bP"]
     for peca in pecas:
         IMAGENS[peca] = pygame.transform.scale(pygame.image.load('img/' + peca + '.png'), (TAMANHO_CASA, TAMANHO_CASA))
 
@@ -20,12 +20,17 @@ def desenhaTabuleiro(tela):
             cor = cores[ (linha + coluna) % 2 ]
             pygame.draw.rect(tela, cor, pygame.Rect(coluna*TAMANHO_CASA, linha*TAMANHO_CASA, TAMANHO_CASA, TAMANHO_CASA))
 
-def desenhaPecas(tela, gEngine):
-    pass
+def desenhaPecas(tela, tabuleiro):
+    for linha in range(DIMENSAO):
+        for coluna in range(DIMENSAO):
+            peca = tabuleiro[linha][coluna]
+            if peca != "--":
+                tela.blit(IMAGENS[peca], pygame.Rect(coluna*TAMANHO_CASA, linha*TAMANHO_CASA, TAMANHO_CASA, TAMANHO_CASA))
+
 
 def desenhaEstadoAtual(tela, gEngine):
     desenhaTabuleiro(tela)
-    desenhaPecas(tela, gEngine)
+    desenhaPecas(tela, gEngine.tabuleiro)
 
 
 def main():
@@ -34,6 +39,7 @@ def main():
     clock = pygame.time.Clock()
     tela.fill(pygame.Color('white'))
     gEngine = gameEngine.gameEngine()
+    carregarImagens()
     rodando = True
     while rodando:
         for e in pygame.event.get():

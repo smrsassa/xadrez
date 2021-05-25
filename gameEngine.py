@@ -9,7 +9,7 @@ class gameEngine:
             ["--", "--", "--", "--", "--", "--", "--", "--"],
             ["--", "--", "--", "--", "--", "--", "--", "--"],
             ["wP", "wP", "wP", "wP", "wP", "wP", "wP", "wP"],
-            ["wR", "wN", "ww", "wQ", "wK", "ww", "wN", "wR"]
+            ["wR", "wN", "wB", "wQ", "wK", "wB", "wN", "wR"]
         ]
         self.brancasJogam = True
         self.moveLog = []
