@@ -41,10 +41,32 @@ def main():
     gEngine = gameEngine.gameEngine()
     carregarImagens()
     rodando = True
+    sqSelecionado = ()
+    clicks = []
+
     while rodando:
         for e in pygame.event.get():
             if e.type == pygame.QUIT:
                 rodando = False
+            elif e.type == pygame.MOUSEBUTTONDOWN:
+                x, y = pygame.mouse.get_pos()
+                col = x // TAMANHO_CASA
+                row = y // TAMANHO_CASA
+                if sqSelecionado == (row, col):
+                    sqSelecionado = ()
+                    clicks = []
+                else:
+                    sqSelecionado = (row, col)
+                    clicks.append(sqSelecionado)
+                
+                if len(clicks) == 2:
+                    mover = gameEngine.mover(clicks[0], clicks[1], gEngine.tabuleiro)
+                    print(mover.getChessNotation())
+                    gEngine.mover(mover)
+                    sqSelecionado = ()
+                    clicks = []
+                    
+                
 
         desenhaEstadoAtual(tela, gEngine)
         
