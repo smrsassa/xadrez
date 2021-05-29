@@ -1,5 +1,6 @@
 import pygame
-import gameEngine
+import gameState
+import movimento
 
 
 LARGURA = ALTURA = 512
@@ -28,9 +29,9 @@ def desenhaPecas(tela, tabuleiro):
                 tela.blit(IMAGENS[peca], pygame.Rect(coluna*TAMANHO_CASA, linha*TAMANHO_CASA, TAMANHO_CASA, TAMANHO_CASA))
 
 
-def desenhaEstadoAtual(tela, gEngine):
+def desenhaEstadoAtual(tela, gState):
     desenhaTabuleiro(tela)
-    desenhaPecas(tela, gEngine.tabuleiro)
+    desenhaPecas(tela, gState.tabuleiro)
 
 
 def main():
@@ -38,7 +39,7 @@ def main():
     tela = pygame.display.set_mode(( LARGURA, ALTURA ))
     clock = pygame.time.Clock()
     tela.fill(pygame.Color('white'))
-    gEngine = gameEngine.gameEngine()
+    gState = gameState.gameState()
     carregarImagens()
     rodando = True
     sqSelecionado = ()
@@ -60,15 +61,13 @@ def main():
                     clicks.append(sqSelecionado)
                 
                 if len(clicks) == 2:
-                    mover = gameEngine.mover(clicks[0], clicks[1], gEngine.tabuleiro)
+                    mover = movimento.Mover(clicks[0], clicks[1], gState.tabuleiro)
                     print(mover.getChessNotation())
-                    gEngine.mover(mover)
+                    gState.mover(mover)
                     sqSelecionado = ()
                     clicks = []
-                    
-                
 
-        desenhaEstadoAtual(tela, gEngine)
+        desenhaEstadoAtual(tela, gState)
         
         clock.tick(MAX_FPS)
         pygame.display.flip()   
