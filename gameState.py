@@ -1,3 +1,5 @@
+import movimento
+
 
 class gameState:
     def __init__(self):
@@ -13,10 +15,13 @@ class gameState:
         ]
         self.brancasJogam = True
         self.moveLog = []
-    
-    def mover(self, mover):
-        self.tabuleiro[mover.inicioRow][mover.inicioCol] = "--"
-        self.tabuleiro[mover.fimRow][mover.fimCol] = mover.pecaMovida
-        self.moveLog.append(mover)
-        self.brancasJogam = not self.brancasJogam
-    
+
+    def mover(self, clicks):
+        corPeca = self.tabuleiro[clicks[0][0]][clicks[0][1]][0]
+        if (corPeca == "w" and self.brancasJogam) or (corPeca == "b" and not self.brancasJogam):
+            mover = movimento.Mover(clicks[0], clicks[1], self.tabuleiro)
+            print(mover.getChessNotation())
+            self.tabuleiro[mover.inicioRow][mover.inicioCol] = "--"
+            self.tabuleiro[mover.fimRow][mover.fimCol] = mover.pecaMovida
+            self.moveLog.append(mover)
+            self.brancasJogam = not self.brancasJogam

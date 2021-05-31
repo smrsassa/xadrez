@@ -1,6 +1,5 @@
 import pygame
 import gameState
-import movimento
 
 
 LARGURA = ALTURA = 512
@@ -41,7 +40,7 @@ class MainGame:
     def desenhaEstadoAtual(self, tela, gState):
         self.desenhaTabuleiro(tela)
         self.desenhaPecas(tela, gState.tabuleiro)
-    
+
     def iniciaJogo(self):
 
         gState = gameState.gameState()
@@ -55,17 +54,18 @@ class MainGame:
                     x, y = pygame.mouse.get_pos()
                     col = x // TAMANHO_CASA
                     row = y // TAMANHO_CASA
+
                     if self.sqSelecionado == (row, col):
                         self.sqSelecionado = ()
                         self.clicks = []
+                    elif len(self.clicks) == 0 and gState.tabuleiro[row][col] == '--':
+                        pass
                     else:
                         self.sqSelecionado = (row, col)
                         self.clicks.append(self.sqSelecionado)
 
                     if len(self.clicks) == 2:
-                        mover = movimento.Mover(self.clicks[0], self.clicks[1], gState.tabuleiro)
-                        print(mover.getChessNotation())
-                        gState.mover(mover)
+                        gState.mover(self.clicks)
                         self.sqSelecionado = ()
                         self.clicks = []
 
