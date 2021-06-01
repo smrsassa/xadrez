@@ -29,7 +29,7 @@ class Mover:
         elif peca == 'K':
             return []
         elif peca == 'Q':
-            return []
+            return self.movRainha(cor, posicaoAtual, tabuleiro)
         
     def movPeao(self, cor, posicaoAtual, tabuleiro):
         movPossiveis = []
@@ -118,4 +118,10 @@ class Mover:
         movPossiveis = movPossiveis + self.loopMovimentoLinhaDiagonal(-1, -1, cor, posicaoAtual, tabuleiro)
     
         return movPossiveis
-    
+
+    def movRainha(self, cor, posicaoAtual, tabuleiro):
+        movTorre = self.movTorre(cor, posicaoAtual, tabuleiro)
+        movBispo = self.movBispo(cor, posicaoAtual, tabuleiro)
+        movPossiveis = movTorre + movBispo
+
+        return movPossiveis
