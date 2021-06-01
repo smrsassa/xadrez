@@ -15,4 +15,46 @@ class Mover:
         return self.colsFiles[col] + self.rowsRanks[row]
 
     def getChessNotation(self):
-        return self.getRankFiles(self.inicioRow, self.inicioCol) + self.getRankFiles(self.fimRow, self.fimCol)
+        return self.getRankFiles(self.inicioRow, self.inicioCol) + " -> " + self.getRankFiles(self.fimRow, self.fimCol)
+
+    def validaMovimento(self, peca, cor, posicaoAtual, tabuleiro):
+        if peca == 'P':
+            return self.movPeao(cor, posicaoAtual, tabuleiro)
+        elif peca == 'R':
+            return []
+        elif peca == 'N':
+            return []
+        elif peca == 'B':
+            return []
+        elif peca == 'K':
+            return []
+        elif peca == 'Q':
+            return []
+        
+    def movPeao(self, cor, posicaoAtual, tabuleiro):
+        movPossiveis = []
+        inverte = 1
+        posInicial = 1
+        if cor == 'w':
+            inverte *= -1
+            posInicial = 6
+
+        diagonalEsquerda = tabuleiro[(posicaoAtual[0] + (inverte*1))][(posicaoAtual[1] - 1)]
+        diagonalDireita = tabuleiro[(posicaoAtual[0] + (inverte*1))][(posicaoAtual[1] + 1)]
+        if diagonalEsquerda != '--' and diagonalEsquerda[0] != 'w':
+            movPossiveis.append(((posicaoAtual[0] + (inverte*1)), (posicaoAtual[1] - 1)))
+        if diagonalDireita != '--' and diagonalDireita[0] != 'w':
+            movPossiveis.append(((posicaoAtual[0] + (inverte*1)), (posicaoAtual[1] + 1)))
+
+        qtdeMov = 1
+        if posicaoAtual[0] == posInicial:
+            qtdeMov += 1
+        for mov in range(1, (qtdeMov + 1)):
+            if tabuleiro[(posicaoAtual[0] + (inverte*mov))][posicaoAtual[1]] == '--':
+                movPossiveis.append(((posicaoAtual[0] + (inverte*mov)), posicaoAtual[1]))
+            if mov == 1 and tabuleiro[(posicaoAtual[0] + (inverte*mov))][posicaoAtual[1]] != '--':
+                break
+
+        return movPossiveis
+        
+
