@@ -1,8 +1,10 @@
 import pygame
 import gameState
+import interface
 
 
 LARGURA = ALTURA = 512
+TAMANO_INTERFACE = 300
 DIMENSAO = 8
 TAMANHO_CASA = ALTURA // DIMENSAO
 MAX_FPS = 15
@@ -11,9 +13,11 @@ IMAGENS = {}
 class MainGame:
     def __init__(self):
         pygame.init()
-        self.tela = pygame.display.set_mode(( LARGURA, ALTURA ))
+        self.tela = pygame.display.set_mode(( LARGURA + TAMANO_INTERFACE, ALTURA ))
+        pygame.display.set_caption('Xadrex')
         self.clock = pygame.time.Clock()
-        self.tela.fill(pygame.Color('white'))
+        self.tela.fill(pygame.Color(98, 107, 88))
+        self.interface = interface.Interface(self.tela, LARGURA)
         self.rodando = True
         self.sqSelecionado = ()
         self.clicks = []
