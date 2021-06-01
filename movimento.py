@@ -25,7 +25,7 @@ class Mover:
         elif peca == 'N':
             return []
         elif peca == 'B':
-            return []
+            return self.movBispo(cor, posicaoAtual, tabuleiro)
         elif peca == 'K':
             return []
         elif peca == 'Q':
@@ -92,4 +92,30 @@ class Mover:
 
         return movPossiveis
         
+    def loopMovimentoLinhaDiagonal(self, sentidoRow, sentidoCol, cor, posicaoAtual, tabuleiro):
+        movPossiveis = []
+        for casa in range(1, 8):
+            row = posicaoAtual[0] + (casa * sentidoRow)
+            col = posicaoAtual[1] + (casa * sentidoCol)
+            if row < 0 or row > 7 or col < 0 or col > 7 :
+                break
+            elif tabuleiro[row][col] == '--':
+                movPossiveis.append((row, col))
+            elif tabuleiro[row][col][0] != cor:
+                movPossiveis.append((row, col))
+                break
+            else:
+                break
+        return movPossiveis
 
+    def movBispo(self, cor, posicaoAtual, tabuleiro):
+        movPossiveis = []
+    
+        movPossiveis = self.loopMovimentoLinhaDiagonal(1, 1, cor, posicaoAtual, tabuleiro)
+        
+        movPossiveis = movPossiveis + self.loopMovimentoLinhaDiagonal(-1, 1, cor, posicaoAtual, tabuleiro)
+        movPossiveis = movPossiveis + self.loopMovimentoLinhaDiagonal(1, -1, cor, posicaoAtual, tabuleiro)
+        movPossiveis = movPossiveis + self.loopMovimentoLinhaDiagonal(-1, -1, cor, posicaoAtual, tabuleiro)
+    
+        return movPossiveis
+    
