@@ -21,7 +21,7 @@ class Mover:
         if peca == 'P':
             return self.movPeao(cor, posicaoAtual, tabuleiro)
         elif peca == 'R':
-            return []
+            return self.movTorre(cor, posicaoAtual, tabuleiro)
         elif peca == 'N':
             return []
         elif peca == 'B':
@@ -40,11 +40,12 @@ class Mover:
             posInicial = 6
 
         diagonalEsquerda = tabuleiro[(posicaoAtual[0] + (inverte*1))][(posicaoAtual[1] - 1)]
-        diagonalDireita = tabuleiro[(posicaoAtual[0] + (inverte*1))][(posicaoAtual[1] + 1)]
-        if diagonalEsquerda != '--' and diagonalEsquerda[0] != 'w':
+        if (posicaoAtual[1] + 1) < 8:
+            diagonalDireita = tabuleiro[(posicaoAtual[0] + (inverte*1))][(posicaoAtual[1] + 1)]
+            if diagonalDireita != '--' and diagonalDireita[0] != cor:
+                movPossiveis.append(((posicaoAtual[0] + (inverte*1)), (posicaoAtual[1] + 1)))
+        if diagonalEsquerda != '--' and diagonalEsquerda[0] != cor:
             movPossiveis.append(((posicaoAtual[0] + (inverte*1)), (posicaoAtual[1] - 1)))
-        if diagonalDireita != '--' and diagonalDireita[0] != 'w':
-            movPossiveis.append(((posicaoAtual[0] + (inverte*1)), (posicaoAtual[1] + 1)))
 
         qtdeMov = 1
         if posicaoAtual[0] == posInicial:
@@ -54,6 +55,40 @@ class Mover:
                 movPossiveis.append(((posicaoAtual[0] + (inverte*mov)), posicaoAtual[1]))
             if mov == 1 and tabuleiro[(posicaoAtual[0] + (inverte*mov))][posicaoAtual[1]] != '--':
                 break
+
+        return movPossiveis
+
+    def loopMovimentoLinhaReta(self, vertical, inicio, fim, passo, posicaoAtual, tabuleiro, cor):
+        movPossiveis = []
+        if vertical:
+            for casa in range(inicio, fim, passo):
+                if tabuleiro[casa][posicaoAtual[1]] == '--':
+                    movPossiveis.append((casa, posicaoAtual[1]))
+                elif tabuleiro[casa][posicaoAtual[1]][0] != cor:
+                    movPossiveis.append((casa, posicaoAtual[1]))
+                    break
+                else:
+                    break
+        else:
+            for casa in range(inicio, fim, passo):
+                if tabuleiro[posicaoAtual[0]][casa] == '--':
+                    movPossiveis.append((posicaoAtual[0], casa))
+                elif tabuleiro[posicaoAtual[0]][casa][0] != cor:
+                    movPossiveis.append((posicaoAtual[0], casa))
+                    break
+                else:
+                    break
+
+        return movPossiveis
+
+    def movTorre(self, cor, posicaoAtual, tabuleiro):
+        movPossiveis = []
+        menor = -1
+        maior = 8
+        movPossiveis = movPossiveis + self.loopMovimentoLinhaReta(True, (posicaoAtual[0]+1), maior, 1, posicaoAtual, tabuleiro, cor)
+        movPossiveis = movPossiveis + self.loopMovimentoLinhaReta(True, (posicaoAtual[0]-1), menor, -1, posicaoAtual, tabuleiro, cor)
+        movPossiveis = movPossiveis + self.loopMovimentoLinhaReta(False, (posicaoAtual[1]+1), maior, 1, posicaoAtual, tabuleiro, cor)
+        movPossiveis = movPossiveis + self.loopMovimentoLinhaReta(False, (posicaoAtual[1]-1), menor, -1, posicaoAtual, tabuleiro, cor)
 
         return movPossiveis
         
