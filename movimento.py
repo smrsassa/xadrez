@@ -27,7 +27,7 @@ class Mover:
         elif peca == 'B':
             return self.movBispo(cor, posicaoAtual, tabuleiro)
         elif peca == 'K':
-            return []
+            return self.movRei(cor, posicaoAtual, tabuleiro)
         elif peca == 'Q':
             return self.movRainha(cor, posicaoAtual, tabuleiro)
         
@@ -123,5 +123,32 @@ class Mover:
         movTorre = self.movTorre(cor, posicaoAtual, tabuleiro)
         movBispo = self.movBispo(cor, posicaoAtual, tabuleiro)
         movPossiveis = movTorre + movBispo
+
+        return movPossiveis
+
+    def movRei(self, cor, posicaoAtual, tabuleiro):
+        movPossiveis = []
+        row = posicaoAtual[0]
+        col = posicaoAtual[1]
+
+        for c in range(1, 3):
+            for i in range(1, 3):
+                rowCasa = 1
+                colCasa = 1
+                if i // 2 == 0:
+                    rowCasa = rowCasa * -1
+                if c // 2 == 0:
+                    colCasa = colCasa * -1
+                if (row + rowCasa) < 7 and (row + rowCasa) > -1 and (col + colCasa) < 7 and (col + colCasa) > -1:
+                    if tabuleiro[(row + rowCasa)][(col + colCasa)] == '--' or tabuleiro[(row + rowCasa)][(col + colCasa)][0] != cor:
+                        movPossiveis.append(((row + rowCasa), (col + colCasa)))
+                if c == i:
+                    if row < 7 and row > -1 and (col + colCasa) < 7 and (col + colCasa) > -1:
+                        if tabuleiro[row][(col + colCasa)] == '--' or tabuleiro[row][(col + colCasa)][0] != cor:
+                            movPossiveis.append((row, (col + colCasa)))
+                else:
+                    if (row + rowCasa) < 7 and (row + rowCasa) > -1 and col < 7 and col > -1:
+                        if tabuleiro[(row + rowCasa)][col] == '--' or tabuleiro[(row + rowCasa)][col][0] != cor:
+                            movPossiveis.append(((row + rowCasa), col))
 
         return movPossiveis
