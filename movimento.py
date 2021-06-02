@@ -23,7 +23,7 @@ class Mover:
         elif peca == 'R':
             return self.movTorre(cor, posicaoAtual, tabuleiro)
         elif peca == 'N':
-            return []
+            return self.movCavalo(cor, posicaoAtual, tabuleiro)
         elif peca == 'B':
             return self.movBispo(cor, posicaoAtual, tabuleiro)
         elif peca == 'K':
@@ -150,5 +150,39 @@ class Mover:
                     if (row + rowCasa) < 7 and (row + rowCasa) > -1 and col < 7 and col > -1:
                         if tabuleiro[(row + rowCasa)][col] == '--' or tabuleiro[(row + rowCasa)][col][0] != cor:
                             movPossiveis.append(((row + rowCasa), col))
+
+        return movPossiveis
+    
+    def movCavalo(self, cor, posicaoAtual, tabuleiro):
+        movPossiveis = []
+        rowSentido = 1
+        colSentido = 1
+        for c in range(0, 4):
+            row = posicaoAtual[0]
+            col = posicaoAtual[1]
+            if c % 2 == 0:
+                row = row + (2 * rowSentido)
+                colDireita = col + 1
+                colEsquerda = col - 1
+                rowSentido = -1
+                if row > -1 and row < 8:
+                    if colDireita < 8:
+                        if tabuleiro[row][colDireita] == '--' or tabuleiro[row][colDireita][0] != cor:
+                            movPossiveis.append((row, colDireita))
+                    if colEsquerda > -1:
+                        if tabuleiro[row][colEsquerda] == '--' or tabuleiro[row][colEsquerda][0] != cor:
+                            movPossiveis.append((row, colEsquerda))
+            else:
+                col = col + (2 * colSentido)
+                rowDireita = row + 1
+                rowEsquerda = row - 1
+                colSentido = -1
+                if col > -1 and col < 8:
+                    if rowDireita < 8:
+                        if tabuleiro[rowDireita][col] == '--' or tabuleiro[rowDireita][col][0] != cor:
+                            movPossiveis.append((rowDireita, col))
+                    if rowEsquerda > -1:
+                        if tabuleiro[rowEsquerda][col] == '--' or tabuleiro[rowEsquerda][col][0] != cor:
+                            movPossiveis.append((rowEsquerda, col))
 
         return movPossiveis
