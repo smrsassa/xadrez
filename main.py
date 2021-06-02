@@ -45,6 +45,26 @@ class MainGame:
         self.desenhaTabuleiro(tela)
         self.desenhaPecas(tela, gState.tabuleiro)
 
+    def acoesJogo(self, gState, x, y):
+        col = x // TAMANHO_CASA
+        row = y // TAMANHO_CASA
+
+        if self.sqSelecionado == (row, col):
+            self.sqSelecionado = ()
+            self.clicks = []
+        elif len(self.clicks) == 0 and gState.tabuleiro[row][col] == '--':
+            pass
+        else:
+            self.sqSelecionado = (row, col)
+            self.clicks.append(self.sqSelecionado)
+
+        if len(self.clicks) == 2:
+            notation = gState.mover(self.clicks)
+            if notation != None:
+                self.interface.chessNotationLog(notation)
+            self.sqSelecionado = ()
+            self.clicks = []
+
     def iniciaJogo(self):
 
         gState = gameState.gameState()
@@ -56,22 +76,10 @@ class MainGame:
                     self.rodando = False
                 elif e.type == pygame.MOUSEBUTTONDOWN:
                     x, y = pygame.mouse.get_pos()
-                    col = x // TAMANHO_CASA
-                    row = y // TAMANHO_CASA
-
-                    if self.sqSelecionado == (row, col):
-                        self.sqSelecionado = ()
-                        self.clicks = []
-                    elif len(self.clicks) == 0 and gState.tabuleiro[row][col] == '--':
-                        pass
+                    if x < 512:
+                        self.acoesJogo(gState, x, y)
                     else:
-                        self.sqSelecionado = (row, col)
-                        self.clicks.append(self.sqSelecionado)
-
-                    if len(self.clicks) == 2:
-                        gState.mover(self.clicks)
-                        self.sqSelecionado = ()
-                        self.clicks = []
+                        self.interface.clique(x, y)
 
             self.desenhaEstadoAtual(self.tela, gState)
 
