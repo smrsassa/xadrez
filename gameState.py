@@ -14,6 +14,7 @@ class gameState:
         ]
         self.brancasJogam = True
         self.moveLog = []
+        self.moveLogNotation = []
 
     def mover(self, clicks):
         corPeca = self.tabuleiro[clicks[0][0]][clicks[0][1]][0]
@@ -26,5 +27,4 @@ class gameState:
                 self.tabuleiro[mover.fimRow][mover.fimCol] = mover.pecaMovida
                 self.moveLog.append(mover)
                 self.brancasJogam = not self.brancasJogam
-
-                return mover.getChessNotation()
+                self.moveLogNotation.append(mover.getChessNotation())

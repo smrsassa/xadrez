@@ -1,9 +1,10 @@
 import pygame
+from pygame.mixer import pre_init
 import gameState
 import interface
 
 
-LARGURA = ALTURA = 512
+LARGURA = ALTURA = 560
 TAMANO_INTERFACE = 300
 DIMENSAO = 8
 TAMANHO_CASA = ALTURA // DIMENSAO
@@ -16,7 +17,7 @@ class MainGame:
         self.tela = pygame.display.set_mode(( LARGURA + TAMANO_INTERFACE, ALTURA ))
         pygame.display.set_caption('Xadrex')
         self.clock = pygame.time.Clock()
-        self.tela.fill(pygame.Color(98, 107, 88))
+        self.tela.fill(pygame.Color(50, 50, 50))
         self.interface = interface.Interface(self.tela, LARGURA)
         self.rodando = True
         self.sqSelecionado = ()
@@ -59,9 +60,8 @@ class MainGame:
             self.clicks.append(self.sqSelecionado)
 
         if len(self.clicks) == 2:
-            notation = gState.mover(self.clicks)
-            if notation != None:
-                self.interface.chessNotationLog(notation)
+            gState.mover(self.clicks)
+            self.interface.chessNotationLog()
             self.sqSelecionado = ()
             self.clicks = []
 
@@ -79,7 +79,16 @@ class MainGame:
                     if x < 512:
                         self.acoesJogo(gState, x, y)
                     else:
-                        self.interface.clique(x, y)
+                        #self.interface.clique(x, y)
+                        pass
+
+                    if e.button == 4:# Scroll up
+                        if self.interface.mover > 0:
+                            self.interface.scrollBar(self.tela, -1)
+
+                    if e.button == 5:
+                        if self.interface.mover < 340:
+                            self.interface.scrollBar(self.tela, 1)
 
             self.desenhaEstadoAtual(self.tela, gState)
 
