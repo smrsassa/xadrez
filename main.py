@@ -5,7 +5,7 @@ import interface
 
 
 LARGURA = ALTURA = 560
-TAMANO_INTERFACE = 300
+TAMANO_INTERFACE = 50
 DIMENSAO = 8
 TAMANHO_CASA = ALTURA // DIMENSAO
 MAX_FPS = 15
@@ -61,7 +61,6 @@ class MainGame:
 
         if len(self.clicks) == 2:
             gState.mover(self.clicks)
-            self.interface.chessNotationLog()
             self.sqSelecionado = ()
             self.clicks = []
 
@@ -76,19 +75,10 @@ class MainGame:
                     self.rodando = False
                 elif e.type == pygame.MOUSEBUTTONDOWN:
                     x, y = pygame.mouse.get_pos()
-                    if x < 512:
+                    if x < LARGURA:
                         self.acoesJogo(gState, x, y)
                     else:
-                        #self.interface.clique(x, y)
-                        pass
-
-                    if e.button == 4:# Scroll up
-                        if self.interface.mover > 0:
-                            self.interface.scrollBar(self.tela, -1)
-
-                    if e.button == 5:
-                        if self.interface.mover < 340:
-                            self.interface.scrollBar(self.tela, 1)
+                        self.interface.clique(x, y)
 
             self.desenhaEstadoAtual(self.tela, gState)
 
