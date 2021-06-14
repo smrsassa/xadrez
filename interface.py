@@ -16,10 +16,10 @@ class Interface:
 
 
     def botaoDownloadMoves(self):
-        downloadIcon = pygame.transform.scale(pygame.image.load('img/download.png'), (45, 45))
-        self.tela.blit(downloadIcon, pygame.Rect(562, 462, 45, 45))
+        downloadIcon = pygame.transform.scale(pygame.image.load('img/download.png'), (50, 50))
+        self.tela.blit(downloadIcon, pygame.Rect(560, 460, 50, 50))
     def botaoDownloadMovesOnClick(self):
-        print("aqui")
+        pass
 
     def botaoGit(self):
         gitHubLogo = pygame.transform.scale(pygame.image.load('img/gitHub.png'), (50, 50))

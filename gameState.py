@@ -24,6 +24,8 @@ class gameState:
             movimentosPossiveis = mover.validaMovimento(peca, corPeca, (clicks[0][0], clicks[0][1]), self.tabuleiro)
             if clicks[1] in movimentosPossiveis:
                 self.tabuleiro[mover.inicioRow][mover.inicioCol] = "--"
+                if peca == 'P' and (mover.fimRow == 0 or mover.fimRow == 7):
+                    mover.pecaMovida = corPeca + 'Q'
                 self.tabuleiro[mover.fimRow][mover.fimCol] = mover.pecaMovida
                 self.moveLog.append(mover)
                 self.brancasJogam = not self.brancasJogam
