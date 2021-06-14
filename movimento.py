@@ -15,7 +15,7 @@ class Mover:
         return self.colsFiles[col] + self.rowsRanks[row]
 
     def getChessNotation(self):
-        return self.getRankFiles(self.inicioRow, self.inicioCol) + " -> " + self.getRankFiles(self.fimRow, self.fimCol)
+        return self.getRankFiles(self.inicioRow, self.inicioCol) + "" + self.getRankFiles(self.fimRow, self.fimCol)
 
     def validaMovimento(self, peca, cor, posicaoAtual, tabuleiro):
         if peca == 'P':
