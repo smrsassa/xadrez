@@ -4,5 +4,7 @@
 
 [] Check
 [] Checkmate
+[] Castling
 [X] Promoção de peão
-[] Captura de peão passado
+[X] Captura de peão passado
+[] Adicionar o stockfish

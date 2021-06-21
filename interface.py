@@ -2,7 +2,7 @@ import pygame
 import webbrowser
 
 class Interface:
-    def __init__(self, tela, tamTabuleiro, ignora = False):
+    def __init__(self, tela, tamTabuleiro):
         self.tela = tela
         self.tamanhoTabuleiro = tamTabuleiro
         self.botaoDownloadMoves()

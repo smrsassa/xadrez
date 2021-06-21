@@ -5,7 +5,7 @@ from stockfish import Stockfish
 
 stockfish = Stockfish(r'C:/Users/g_gar/pyProj/stockfish_13_win_x64_bmi2/stockfish_13_win_x64_bmi2.exe')
 
-stockfish.set_position(["e2e4", "e7e6"])
+stockfish.set_position(["e2e4"])
 
 print(stockfish.get_best_move())
 

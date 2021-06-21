@@ -21,11 +21,18 @@ class gameState:
         peca = self.tabuleiro[clicks[0][0]][clicks[0][1]][1]
         if (corPeca == "w" and self.brancasJogam) or (corPeca == "b" and not self.brancasJogam):
             mover = movimento.Mover(clicks[0], clicks[1], self.tabuleiro)
-            movimentosPossiveis = mover.validaMovimento(peca, corPeca, (clicks[0][0], clicks[0][1]), self.tabuleiro)
+            movimentosPossiveis = mover.validaMovimento(peca, corPeca, (clicks[0][0], clicks[0][1]), self.tabuleiro, self.moveLogNotation)
             if clicks[1] in movimentosPossiveis:
                 self.tabuleiro[mover.inicioRow][mover.inicioCol] = "--"
-                if peca == 'P' and (mover.fimRow == 0 or mover.fimRow == 7):
-                    mover.pecaMovida = corPeca + 'Q'
+                if peca == 'P':
+                    if mover.fimRow == 0 or mover.fimRow == 7:
+                        mover.pecaMovida = corPeca + 'Q'
+                    peaoPassado = mover.peaoPassado(corPeca, (clicks[0][0], clicks[0][1]), self.tabuleiro, self.moveLogNotation)
+                    if (mover.fimRow, mover.fimCol) == peaoPassado[0]:
+                        self.tabuleiro[mover.inicioRow][(mover.inicioCol + 1)] = "--"
+                    elif (mover.fimRow, mover.fimCol) == peaoPassado[1]:
+                        self.tabuleiro[mover.inicioRow][(mover.inicioCol - 1)] = "--"
+
                 self.tabuleiro[mover.fimRow][mover.fimCol] = mover.pecaMovida
                 self.moveLog.append(mover)
                 self.brancasJogam = not self.brancasJogam

@@ -14,12 +14,18 @@ class Mover:
     def getRankFiles(self, row, col):
         return self.colsFiles[col] + self.rowsRanks[row]
 
+    def getFilesNumber(self, row):
+        return self.filesCols[row]
+
+    def getRankNumber(self, row):
+        return self.rankRows[row]
+
     def getChessNotation(self):
         return self.getRankFiles(self.inicioRow, self.inicioCol) + "" + self.getRankFiles(self.fimRow, self.fimCol)
 
-    def validaMovimento(self, peca, cor, posicaoAtual, tabuleiro):
+    def validaMovimento(self, peca, cor, posicaoAtual, tabuleiro, moveLogNotation):
         if peca == 'P':
-            return self.movPeao(cor, posicaoAtual, tabuleiro)
+            return self.movPeao(cor, posicaoAtual, tabuleiro, moveLogNotation)
         elif peca == 'R':
             return self.movTorre(cor, posicaoAtual, tabuleiro)
         elif peca == 'N':
@@ -30,8 +36,31 @@ class Mover:
             return self.movRei(cor, posicaoAtual, tabuleiro)
         elif peca == 'Q':
             return self.movRainha(cor, posicaoAtual, tabuleiro)
+
+    def peaoPassado(self, cor, posicaoAtual, tabuleiro, moveLogNotation):
+        movPossiveis = [[],[]]
+        inverte = 1
+        posInicial = 1
+        if cor == 'w':
+            inverte *= -1
+            posInicial = 6
+
+        if posicaoAtual[1] + 1 < 7: 
+            lateralDireita = tabuleiro[(posicaoAtual[0])][(posicaoAtual[1] + 1)]
+            if lateralDireita[0] != cor and lateralDireita[1] == 'P':
+                if (int(moveLogNotation[-1][1]) - 1) == posInicial:
+                    if self.getRankNumber(moveLogNotation[-1][3]) == posicaoAtual[0] and self.getFilesNumber(moveLogNotation[-1][2]) == (posicaoAtual[1] + 1):
+                        movPossiveis[0] = ((posicaoAtual[0] + (inverte*1)), (posicaoAtual[1] + 1))
+
+        lateralEsquerda = tabuleiro[(posicaoAtual[0])][(posicaoAtual[1] - 1)]
+        if lateralEsquerda[0] != cor and lateralEsquerda[1] == 'P':
+            if (int(moveLogNotation[-1][1]) - 1) == posInicial:
+                if self.getRankNumber(moveLogNotation[-1][3]) == posicaoAtual[0] and self.getFilesNumber(moveLogNotation[-1][2]) == (posicaoAtual[1] - 1):
+                    movPossiveis[1] = ((posicaoAtual[0] + (inverte*1)), (posicaoAtual[1] - 1))
+
+        return movPossiveis
         
-    def movPeao(self, cor, posicaoAtual, tabuleiro):
+    def movPeao(self, cor, posicaoAtual, tabuleiro, moveLogNotation):
         movPossiveis = []
         inverte = 1
         posInicial = 1
@@ -44,6 +73,13 @@ class Mover:
             diagonalDireita = tabuleiro[(posicaoAtual[0] + (inverte*1))][(posicaoAtual[1] + 1)]
             if diagonalDireita != '--' and diagonalDireita[0] != cor:
                 movPossiveis.append(((posicaoAtual[0] + (inverte*1)), (posicaoAtual[1] + 1)))
+        
+        peaoPassadoDireita = self.peaoPassado(cor, posicaoAtual, tabuleiro, moveLogNotation)
+        if peaoPassadoDireita[0] != []:
+            movPossiveis.append(peaoPassadoDireita[0])
+        if peaoPassadoDireita[1] != []:
+            movPossiveis.append(peaoPassadoDireita[1])
+        
         if diagonalEsquerda != '--' and diagonalEsquerda[0] != cor:
             movPossiveis.append(((posicaoAtual[0] + (inverte*1)), (posicaoAtual[1] - 1)))
 

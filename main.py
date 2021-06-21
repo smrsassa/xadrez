@@ -1,5 +1,4 @@
 import pygame
-from pygame.mixer import pre_init
 import gameState
 import interface
 
