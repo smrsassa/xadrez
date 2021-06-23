@@ -5,25 +5,25 @@ class Mover:
     filesCols = {"a": 0,"b": 1,"c": 2,"d": 3,"e": 4,"f": 5,"g": 6,"h": 7}
     colsFiles = {v: k for k, v in filesCols.items()}
 
-    def __init__(self, inicio, fim, tabuleiro):
+    def __init__(self, inicio: tuple, fim: tuple, tabuleiro: list) -> None:
         self.inicioRow, self.inicioCol = inicio
         self.fimRow, self.fimCol = fim
         self.pecaMovida = tabuleiro[self.inicioRow][self.inicioCol]
         self.pecaCapturada = tabuleiro[self.fimRow][self.fimCol]
-    
-    def getRankFiles(self, row, col):
+
+    def getRankFiles(self, row: int, col: int) -> str:
         return self.colsFiles[col] + self.rowsRanks[row]
 
-    def getFilesNumber(self, row):
+    def getFilesNumber(self, row: int) -> int:
         return self.filesCols[row]
 
-    def getRankNumber(self, row):
+    def getRankNumber(self, row: int) -> int:
         return self.rankRows[row]
 
-    def getChessNotation(self):
+    def getChessNotation(self) -> str:
         return self.getRankFiles(self.inicioRow, self.inicioCol) + "" + self.getRankFiles(self.fimRow, self.fimCol)
 
-    def validaMovimento(self, peca, cor, posicaoAtual, tabuleiro, moveLogNotation):
+    def validaMovimento(self, peca: str, cor: str, posicaoAtual: tuple, tabuleiro: list, moveLogNotation: list) -> list:
         if peca == 'P':
             return self.movPeao(cor, posicaoAtual, tabuleiro, moveLogNotation)
         elif peca == 'R':
@@ -37,7 +37,7 @@ class Mover:
         elif peca == 'Q':
             return self.movRainha(cor, posicaoAtual, tabuleiro)
 
-    def peaoPassado(self, cor, posicaoAtual, tabuleiro, moveLogNotation):
+    def peaoPassado(self, cor: str, posicaoAtual: tuple, tabuleiro: list, moveLogNotation: list) -> list:
         movPossiveis = [[],[]]
         inverte = 1
         posInicial = 1
@@ -59,8 +59,8 @@ class Mover:
                     movPossiveis[1] = ((posicaoAtual[0] + (inverte*1)), (posicaoAtual[1] - 1))
 
         return movPossiveis
-        
-    def movPeao(self, cor, posicaoAtual, tabuleiro, moveLogNotation):
+
+    def movPeao(self, cor: str, posicaoAtual: tuple, tabuleiro: list, moveLogNotation: list) -> list:
         movPossiveis = []
         inverte = 1
         posInicial = 1
@@ -94,7 +94,7 @@ class Mover:
 
         return movPossiveis
 
-    def loopMovimentoLinhaReta(self, vertical, inicio, fim, passo, posicaoAtual, tabuleiro, cor):
+    def loopMovimentoLinhaReta(self, vertical: bool, inicio: int, fim: int, passo: int, posicaoAtual: tuple, tabuleiro: list, cor: str) -> list:
         movPossiveis = []
         if vertical:
             for casa in range(inicio, fim, passo):
@@ -117,7 +117,7 @@ class Mover:
 
         return movPossiveis
 
-    def movTorre(self, cor, posicaoAtual, tabuleiro):
+    def movTorre(self, cor: str, posicaoAtual: tuple, tabuleiro: list) -> list:
         movPossiveis = []
         menor = -1
         maior = 8
@@ -128,7 +128,7 @@ class Mover:
 
         return movPossiveis
         
-    def loopMovimentoLinhaDiagonal(self, sentidoRow, sentidoCol, cor, posicaoAtual, tabuleiro):
+    def loopMovimentoLinhaDiagonal(self, sentidoRow: int, sentidoCol: int, cor: str, posicaoAtual: tuple, tabuleiro: list) -> list:
         movPossiveis = []
         for casa in range(1, 8):
             row = posicaoAtual[0] + (casa * sentidoRow)
@@ -144,7 +144,7 @@ class Mover:
                 break
         return movPossiveis
 
-    def movBispo(self, cor, posicaoAtual, tabuleiro):
+    def movBispo(self, cor: str, posicaoAtual: tuple, tabuleiro: list) -> list:
         movPossiveis = []
     
         movPossiveis = self.loopMovimentoLinhaDiagonal(1, 1, cor, posicaoAtual, tabuleiro)
@@ -155,14 +155,14 @@ class Mover:
     
         return movPossiveis
 
-    def movRainha(self, cor, posicaoAtual, tabuleiro):
+    def movRainha(self, cor, posicaoAtual, tabuleiro) -> list:
         movTorre = self.movTorre(cor, posicaoAtual, tabuleiro)
         movBispo = self.movBispo(cor, posicaoAtual, tabuleiro)
         movPossiveis = movTorre + movBispo
 
         return movPossiveis
 
-    def movRei(self, cor, posicaoAtual, tabuleiro):
+    def movRei(self, cor: str, posicaoAtual: tuple, tabuleiro: list) -> list:
         movPossiveis = []
         row = posicaoAtual[0]
         col = posicaoAtual[1]
@@ -189,7 +189,7 @@ class Mover:
 
         return movPossiveis
     
-    def movCavalo(self, cor, posicaoAtual, tabuleiro):
+    def movCavalo(self, cor: str, posicaoAtual: tuple, tabuleiro: list) -> list:
         movPossiveis = []
         rowSentido = 1
         colSentido = 1

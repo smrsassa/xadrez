@@ -11,7 +11,7 @@ MAX_FPS = 15
 IMAGENS = {}
 
 class MainGame:
-    def __init__(self):
+    def __init__(self) -> None:
         pygame.init()
         self.tela = pygame.display.set_mode(( LARGURA + TAMANO_INTERFACE, ALTURA ))
         pygame.display.set_caption('Xadrex')
@@ -22,30 +22,30 @@ class MainGame:
         self.sqSelecionado = ()
         self.clicks = []
     
-    def carregarImagens(self):
+    def carregarImagens(self) -> None:
         pecas = ["wR", "wN", "wB", "wQ", "wK", "wP", "bR", "bN", "bB", "bQ", "bK", "bP"]
         for peca in pecas:
             IMAGENS[peca] = pygame.transform.scale(pygame.image.load('img/' + peca + '.png'), (TAMANHO_CASA, TAMANHO_CASA))
 
-    def desenhaTabuleiro(self, tela):
+    def desenhaTabuleiro(self, tela: pygame.Surface) -> None:
         cores = [ pygame.Color(235, 235, 208), pygame.Color(119, 148, 85) ]
         for linha in range(DIMENSAO):
             for coluna in range(DIMENSAO):
                 cor = cores[ (linha + coluna) % 2 ]
                 pygame.draw.rect(tela, cor, pygame.Rect(coluna*TAMANHO_CASA, linha*TAMANHO_CASA, TAMANHO_CASA, TAMANHO_CASA))
 
-    def desenhaPecas(self, tela, tabuleiro):
+    def desenhaPecas(self, tela: pygame.Surface, tabuleiro: list) -> None:
         for linha in range(DIMENSAO):
             for coluna in range(DIMENSAO):
                 peca = tabuleiro[linha][coluna]
                 if peca != "--":
                     tela.blit(IMAGENS[peca], pygame.Rect(coluna*TAMANHO_CASA, linha*TAMANHO_CASA, TAMANHO_CASA, TAMANHO_CASA))
     
-    def desenhaEstadoAtual(self, tela, gState):
+    def desenhaEstadoAtual(self, tela: pygame.Surface, gState: gameState.gameState) -> None:
         self.desenhaTabuleiro(tela)
         self.desenhaPecas(tela, gState.tabuleiro)
 
-    def acoesJogo(self, gState, x, y):
+    def acoesJogo(self, gState: gameState.gameState, x: int, y: int) -> None:
         col = x // TAMANHO_CASA
         row = y // TAMANHO_CASA
 
@@ -63,7 +63,7 @@ class MainGame:
             self.sqSelecionado = ()
             self.clicks = []
 
-    def iniciaJogo(self):
+    def iniciaJogo(self) -> None:
 
         gState = gameState.gameState()
         self.carregarImagens()

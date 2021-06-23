@@ -1,7 +1,7 @@
 import movimento
 
 class gameState:
-    def __init__(self):
+    def __init__(self) -> None:
         self.tabuleiro = [
             ["bR", "bN", "bB", "bQ", "bK", "bB", "bN", "bR"],
             ["bP", "bP", "bP", "bP", "bP", "bP", "bP", "bP"],
@@ -16,7 +16,7 @@ class gameState:
         self.moveLog = []
         self.moveLogNotation = []
 
-    def mover(self, clicks):
+    def mover(self, clicks: list) -> None:
         corPeca = self.tabuleiro[clicks[0][0]][clicks[0][1]][0]
         peca = self.tabuleiro[clicks[0][0]][clicks[0][1]][1]
         if (corPeca == "w" and self.brancasJogam) or (corPeca == "b" and not self.brancasJogam):
