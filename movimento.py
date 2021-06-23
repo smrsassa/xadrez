@@ -45,7 +45,7 @@ class Mover:
             inverte *= -1
             posInicial = 6
 
-        if posicaoAtual[1] + 1 < 7: 
+        if posicaoAtual[1] < 7: 
             lateralDireita = tabuleiro[(posicaoAtual[0])][(posicaoAtual[1] + 1)]
             if lateralDireita[0] != cor and lateralDireita[1] == 'P':
                 if (int(moveLogNotation[-1][1]) - 1) == posInicial:
