@@ -8,28 +8,27 @@ class Interface:
         self.botaoDownloadMoves()
         self.botaoGit()
 
-    def clique(self, x: int, y: int) -> None:
+    def clique(self, x: int, y: int, movLog: list) -> None:
         if y > 460 and y < 510:
-            pass
-            #self.botaoDownloadMovesOnClick()
+            self.botaoDownloadMovesOnClick(movLog)
         elif y > 510:
             self.botaoGitOnClick()
 
     def botaoDownloadMoves(self) -> None:
         downloadIcon = pygame.transform.scale(pygame.image.load('img/download.png'), (50, 50))
         self.tela.blit(downloadIcon, pygame.Rect(560, 460, 50, 50))
-    def botaoDownloadMovesOnClick(self, fen: str, movLog: list) -> None:
+    def botaoDownloadMovesOnClick(self, movLog: list) -> None:
+        if movLog == []:
+            return False
+
         arquivo = open("partidas/partidas.txt", "a")
 
-        arquivo.write(fen)
-        arquivo.write("\n")
         arquivo.writelines(mov + " - " for mov in movLog)
         arquivo.write("\n")
         arquivo.write("=-=" * 30)
         arquivo.write("\n")
 
         arquivo.close()
-
 
     def botaoGit(self) -> None:
         gitHubLogo = pygame.transform.scale(pygame.image.load('img/gitHub.png'), (50, 50))

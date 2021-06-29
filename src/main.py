@@ -77,7 +77,7 @@ class MainGame:
                     if x < LARGURA:
                         self.acoesJogo(gState, x, y)
                     else:
-                        self.interface.clique(x, y)
+                        self.interface.clique(x, y, gState.moveLogNotation)
 
             self.desenhaEstadoAtual(self.tela, gState)
 

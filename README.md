@@ -17,7 +17,7 @@ Este projeto está licenciado sob a Licença MIT - consulte [LICENSE.md](https:/
 # ToDo
 <input type="checkbox"> Check <br>
 <input type="checkbox"> Checkmate <br>
-<input type="checkbox"> Castling <br>
+<input type="checkbox" checked> Castling <br>
 <input type="checkbox" checked> Promoção de peão <br>
 <input type="checkbox" checked> Captura de peão passado <br>
 <input type="checkbox"> Adicionar o stockfish
