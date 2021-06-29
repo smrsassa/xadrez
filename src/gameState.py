@@ -32,6 +32,15 @@ class gameState:
                         self.tabuleiro[mover.inicioRow][(mover.inicioCol + 1)] = "--"
                     elif (mover.fimRow, mover.fimCol) == peaoPassado[1]:
                         self.tabuleiro[mover.inicioRow][(mover.inicioCol - 1)] = "--"
+                if peca == 'K':
+                    colDiferenca = mover.fimCol - mover.inicioCol
+                    if abs(colDiferenca) == 2:
+                        if colDiferenca > 0:
+                            self.tabuleiro[mover.inicioRow][7] = "--"
+                            self.tabuleiro[mover.inicioRow][5] = corPeca+"R"
+                        else:
+                            self.tabuleiro[mover.inicioRow][0] = "--"
+                            self.tabuleiro[mover.inicioRow][3] = corPeca+"R"
 
                 self.tabuleiro[mover.fimRow][mover.fimCol] = mover.pecaMovida
                 self.moveLog.append(mover)

@@ -33,7 +33,7 @@ class Mover:
         elif peca == 'B':
             return self.movBispo(cor, posicaoAtual, tabuleiro)
         elif peca == 'K':
-            return self.movRei(cor, posicaoAtual, tabuleiro)
+            return self.movRei(cor, posicaoAtual, tabuleiro, moveLogNotation)
         elif peca == 'Q':
             return self.movRainha(cor, posicaoAtual, tabuleiro)
 
@@ -162,7 +162,26 @@ class Mover:
 
         return movPossiveis
 
-    def movRei(self, cor: str, posicaoAtual: tuple, tabuleiro: list) -> list:
+    def castle(self, cor: str, posicaoAtual: tuple, tabuleiro: list, moveLogNotation: list) -> list:
+        movPossiveis = [(), ()]
+        rowInicial = 0
+        rowInicialNotation = 8
+        if cor == 'w':
+            rowInicial = 7
+            rowInicialNotation = 1
+
+        if any("e"+str(rowInicialNotation) in mov for mov in moveLogNotation):
+            return movPossiveis
+
+        if tabuleiro[rowInicial][5] == '--' and tabuleiro[rowInicial][6] == '--' and not any("h"+str(rowInicialNotation) in mov for mov in moveLogNotation):
+            movPossiveis[0] = (posicaoAtual[0], (posicaoAtual[1] + 2))
+
+        if tabuleiro[rowInicial][1] == '--' and tabuleiro[rowInicial][2] == '--' and tabuleiro[rowInicial][3] == '--' and not any("a"+str(rowInicialNotation) in mov for mov in moveLogNotation):
+            movPossiveis[1] = (posicaoAtual[0], (posicaoAtual[1] - 2))
+
+        return movPossiveis
+
+    def movRei(self, cor: str, posicaoAtual: tuple, tabuleiro: list, moveLogNotation: list) -> list:
         movPossiveis = []
         row = posicaoAtual[0]
         col = posicaoAtual[1]
@@ -175,17 +194,23 @@ class Mover:
                     rowCasa = rowCasa * -1
                 if c // 2 == 0:
                     colCasa = colCasa * -1
-                if (row + rowCasa) < 7 and (row + rowCasa) > -1 and (col + colCasa) < 7 and (col + colCasa) > -1:
+                if (row + rowCasa) < 8 and (row + rowCasa) > -1 and (col + colCasa) < 8 and (col + colCasa) > -1:
                     if tabuleiro[(row + rowCasa)][(col + colCasa)] == '--' or tabuleiro[(row + rowCasa)][(col + colCasa)][0] != cor:
                         movPossiveis.append(((row + rowCasa), (col + colCasa)))
                 if c == i:
-                    if row < 7 and row > -1 and (col + colCasa) < 7 and (col + colCasa) > -1:
+                    if row < 8 and row > -1 and (col + colCasa) < 8 and (col + colCasa) > -1:
                         if tabuleiro[row][(col + colCasa)] == '--' or tabuleiro[row][(col + colCasa)][0] != cor:
                             movPossiveis.append((row, (col + colCasa)))
                 else:
-                    if (row + rowCasa) < 7 and (row + rowCasa) > -1 and col < 7 and col > -1:
+                    if (row + rowCasa) < 8 and (row + rowCasa) > -1 and col < 8 and col > -1:
                         if tabuleiro[(row + rowCasa)][col] == '--' or tabuleiro[(row + rowCasa)][col][0] != cor:
                             movPossiveis.append(((row + rowCasa), col))
+
+        castleMov = self.castle(cor, posicaoAtual, tabuleiro, moveLogNotation)
+        if castleMov[0] != ():
+            movPossiveis.append(castleMov[0])
+        if castleMov[1] != ():
+            movPossiveis.append(castleMov[1])
 
         return movPossiveis
     
